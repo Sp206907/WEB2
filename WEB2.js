@@ -20,7 +20,6 @@ app.get('/api/get-full-profile', async (req, res) => {
     const UserResponse = await axios.get('https://randomuser.me/api/');
     const userData = UserResponse.data.results[0];
     
-    // ИСПРАВЛЕНИЕ 2: Переименовал profile -> userProfile
     const userProfile = {
       firstname: userData.name.first,
       lastname: userData.name.last,
@@ -61,7 +60,7 @@ app.get('/api/get-full-profile', async (req, res) => {
     };
 
     // --- 4. NEWS API (НОВАЯ ЧАСТЬ) ---
-    // Ищем новости, где упоминается название страны, на английском, максимум 5 штук
+  
     let newsArticles = [];
     try {
         const newsResponse = await axios.get(`https://newsapi.org/v2/everything`, {
