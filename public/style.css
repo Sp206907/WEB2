@@ -1,171 +1,59 @@
-/* 1. Import a better font (Put this at the VERY top) */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
 body {
-    /* Change font to Poppins for a modern look */
-    font-family: 'Poppins', sans-serif;
-    
-    /* VIBRANT GRADIENT BACKGROUND */
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
     margin: 0;
-    padding: 40px 20px;
-    color: #2d3748;
+    padding: 20px;
 }
 
 .container {
-    max-width: 900px;
+    max-width: 800px;
     margin: 0 auto;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
+h1 { text-align: center; color: #333; }
 
-/* 2. Modern Pill Button */
-button {
-    background: #fff;
-    color: #764ba2;
-    border: none;
-    padding: 15px 40px;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 50px; /* Pill shape */
-    cursor: pointer;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2); /* Deep shadow */
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-button:hover {
-    transform: translateY(-3px); /* Moves up slightly */
-    box-shadow: 0 15px 25px rgba(0,0,0,0.3);
-    background: #f0f0f0;
-}
-
-.hidden {
-    display: none;
-}
-
-/* 3. Glassmorphism Cards */
-.card {
-    /* Semi-transparent white */
-    background: rgba(255, 255, 255, 0.9);
-    
-    /* The "Frosted Glass" blur effect */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    
-    border-radius: 20px; /* Softer corners */
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-    margin-bottom: 30px;
-    overflow: hidden;
-    transition: transform 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px); /* Card lifts on hover */
-}
-
-/* Redesigned Header: No dark block, just clean text */
-.card-header {
-    background-color: transparent;
-    color: #4a5568;
-    padding: 20px 30px;
-    font-size: 1.2rem;
-    font-weight: 600;
-    border-bottom: 2px solid #e2e8f0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.card-body {
-    padding: 30px;
-}
-
-/* 4. User Layout */
-.user-layout {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
-
-.profile-pic {
-    border-radius: 50%;
-    /* Gradient border effect */
-    border: 4px solid white;
-    box-shadow: 0 0 0 4px #764ba2; 
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-}
-
-.user-info h2 {
-    margin: 0 0 5px 0;
-    color: #2d3748;
-    font-size: 2rem;
-}
-
-.user-info p {
-    margin: 5px 0;
-    color: #718096;
-    font-size: 1.1rem;
-}
-
-/* Grid Layout */
-.grid-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-}
-
-/* Country & Currency Styling */
-.flag-img {
-    width: 120px;
-    border-radius: 10px; /* Rounded flag */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    margin-bottom: 15px;
-}
-
-/* 5. Modern Rate List */
-.rate-list {
-    list-style: none;
-    padding: 0;
-    font-size: 1.1em;
-}
-
-.rate-list li {
-    margin-bottom: 12px;
+.form-section {
     background: white;
-    color: #764ba2;
-    padding: 15px;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-    font-weight: 600;
-    display: flex;
-    justify-content: space-between;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+form { display: flex; flex-direction: column; gap: 10px; }
+
+input, textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+textarea { height: 100px; resize: vertical; }
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover { background-color: #0056b3; }
+
+.blog-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-/* News Section Tweaks (If you have news) */
-.news-item {
-    margin-bottom: 15px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 15px;
-}
-.news-item:last-child {
-    border-bottom: none;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-    .user-layout { flex-direction: column; text-align: center; }
-    .grid-row { grid-template-columns: 1fr; }
-    
-    .profile-pic {
-        margin-bottom: 15px;
-    }
+.blog-card h3 { margin-top: 0; color: #007bff; }
+.blog-card .meta { font-size: 0.8em; color: #888; margin-bottom: 10px; }
+.delete-btn {
+    background-color: #dc3545;
+    margin-top: 10px;
 }

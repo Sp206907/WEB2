@@ -1,75 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global User Dashboard</title>
+    <title>My Blog Platform</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <div class="container">
-        <header>
-            <h1>Random User Explorer</h1>
-            <p>API Integration Project</p>
-            <button id="fetchBtn">Generate New Identity</button>
-        </header>
+        <h1>Блог Платформа</h1>
+        
+        <section class="form-section">
+            <h2>Создать новый пост</h2>
+            <form id="blogForm">
+                <input type="text" id="title" placeholder="Заголовок поста" required>
+                <textarea id="body" placeholder="Текст поста..." required></textarea>
+                <input type="text" id="author" placeholder="Ваше имя (необязательно)">
+                <button type="submit">Опубликовать</button>
+            </form>
+        </section>
 
-        <div id="statusMessage"></div>
+        <hr>
 
-        <main id="content" class="hidden">
-            
-            <section class="card user-card">
-                <div class="card-header">
-                    <h2>User Profile</h2>
+        <section class="posts-section">
+            <h2>Все записи</h2>
+            <div id="postsContainer">
                 </div>
-                <div class="card-body user-layout">
-                    <img id="userImg" src="" alt="Profile" class="profile-pic">
-                    <div class="user-details">
-                        <h3 id="userName">Name</h3>
-                        <p><strong>Gender:</strong> <span id="userGender"></span></p>
-                        <p><strong>Age:</strong> <span id="userAge"></span> (<span id="userDob"></span>)</p>
-                        <p><strong>Address:</strong> <span id="userAddress"></span></p>
-                        <p><strong>Location:</strong> <span id="userLocation"></span></p>
-                    </div>
-                </div>
-            </section>
-
-            <div class="grid-row">
-                <section class="card country-card">
-                    <div class="card-header">
-                        <h2>Country Info</h2>
-                    </div>
-                    <div class="card-body">
-                        <img id="countryFlag" src="" alt="Flag" class="flag-img">
-                        <h3 id="countryName">Country</h3>
-                        <p><strong>Capital:</strong> <span id="countryCapital"></span></p>
-                        <p><strong>Languages:</strong> <span id="countryLang"></span></p>
-                    </div>
-                </section>
-
-                <section class="card currency-card">
-                    <div class="card-header">
-                        <h2>Exchange Rate</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="rate-box">
-                            <span class="currency-code" id="currencyCode">USD</span>
-                            <span class="currency-symbol" id="currencySymbol">$</span>
-                        </div>
-                        <p class="rate-text">Current rates for local currency:</p>
-                        <ul class="rate-list">
-                            <li>1 <span class="base-currency"></span> = <strong><span id="rateUsd"></span> USD</strong></li>
-                            <li>1 <span class="base-currency"></span> = <strong><span id="rateKzt"></span> KZT</strong></li>
-                        </ul>
-                    </div>
-                </section>
-            </div>
-
-            <div id="newsSection"></div>
-
-        </main>
+        </section>
     </div>
 
     <script src="script.js"></script>

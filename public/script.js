@@ -1,91 +1,55 @@
-const fetchBtn = document.getElementById('fetchBtn');
-const contentDiv = document.getElementById('content');
-const statusDiv = document.getElementById('statusMessage');
-const newsSection = document.getElementById('newsSection'); // Элемент для новостей
+const blogForm = document.getElementById('blogForm');
+const postsContainer = document.getElementById('postsContainer');
 
-fetchBtn.addEventListener('click', getData);
-
-async function getData() {
-    // 1. Показываем пользователю, что идет загрузка
-    statusDiv.textContent = "Loading data... Please wait.";
-    contentDiv.classList.add('hidden'); // Скрываем старые данные
+// 1. Функция получения всех постов
+async function fetchBlogs() {
+    const response = await fetch('/blogs');
+    const blogs = await response.json();
     
-    // Очищаем старые новости, чтобы они не дублировались
-    if(newsSection) newsSection.innerHTML = ''; 
+    postsContainer.innerHTML = ''; // Очищаем контейнер
+    
+    blogs.forEach(blog => {
+        const card = document.createElement('div');
+        card.className = 'blog-card';
+        card.innerHTML = `
+            <h3>${blog.title}</h3>
+            <p class="meta">Автор: ${blog.author} | ${new Date(blog.createdAt).toLocaleString()}</p>
+            <p>${blog.body}</p>
+            <button class="delete-btn" onclick="deleteBlog('${blog._id}')">Удалить</button>
+        `;
+        postsContainer.appendChild(card);
+    });
+}
 
-    try {
-        // 2. Делаем запрос на ТВОЙ сервер
-        const response = await fetch('/api/get-full-profile');
-        
-        if (!response.ok) {
-            throw new Error('Server error');
-        }
+// 2. Функция создания поста
+blogForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const newBlog = {
+        title: document.getElementById('title').value,
+        body: document.getElementById('body').value,
+        author: document.getElementById('author').value || undefined 
+    };
 
-        const data = await response.json();
+    const response = await fetch('/blogs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newBlog)
+    });
 
-        // 3. Заполняем данные на странице (User)
-        document.getElementById('userImg').src = data.user.profilePicture;
-        
-        // ВАЖНО: Исправлено на firstname и lastname (как на сервере)
-        document.getElementById('userName').textContent = `${data.user.firstname} ${data.user.lastname}`;
-        
-        document.getElementById('userGender').textContent = data.user.gender;
-        document.getElementById('userAge').textContent = data.user.age;
-        document.getElementById('userDob').textContent = new Date(data.user.dob).toLocaleDateString();
-        document.getElementById('userAddress').textContent = data.user.address;
-        document.getElementById('userLocation').textContent = `${data.user.city}, ${data.user.country}`;
+    if (response.ok) {
+        blogForm.reset();
+        fetchBlogs(); // Обновляем список
+    }
+});
 
-        // 4. Заполняем данные страны (Country)
-        document.getElementById('countryName').textContent = data.country.name;
-        document.getElementById('countryCapital').textContent = data.country.capital;
-        document.getElementById('countryLang').textContent = data.country.languages;
-        document.getElementById('countryFlag').src = data.country.flagUrl;
-
-        // 5. Заполняем данные валюты (Exchange)
-        document.getElementById('currencyCode').textContent = data.country.currencyCode;
-        document.getElementById('currencySymbol').textContent = data.country.currencySymbol;
-        
-        // Вставляем код валюты во все места (EUR, AUD и т.д.)
-        const baseElements = document.getElementsByClassName('base-currency');
-        for (let el of baseElements) {
-            el.textContent = data.country.currencyCode;
-        }
-
-        document.getElementById('rateUsd').textContent = data.rates.usd;
-        document.getElementById('rateKzt').textContent = data.rates.kzt;
-
-        // 6. Заполняем новости (News API) - НОВАЯ ЧАСТЬ
-        if (data.news && data.news.length > 0) {
-            // Создаем заголовок
-            const newsHeader = document.createElement('h2');
-            newsHeader.textContent = `Latest News from ${data.country.name}`;
-            newsHeader.className = 'news-header';
-            newsSection.appendChild(newsHeader);
-
-            // Создаем карточки для каждой новости
-            data.news.forEach(article => {
-                const newsCard = document.createElement('div');
-                newsCard.className = 'card news-card';
-                newsCard.innerHTML = `
-                    <img src="${article.image}" alt="News" class="news-img" onerror="this.src='https://via.placeholder.com/200'">
-                    <div class="card-body">
-                        <h3>${article.title}</h3>
-                        <p>${article.description ? article.description : 'No description available.'}</p>
-                        <a href="${article.url}" target="_blank" class="read-more">Read full article</a>
-                    </div>
-                `;
-                newsSection.appendChild(newsCard);
-            });
-        } else {
-            newsSection.innerHTML = '<p>No specific news found for this country at the moment.</p>';
-        }
-
-        // 7. Показываем результат
-        statusDiv.textContent = "";
-        contentDiv.classList.remove('hidden');
-
-    } catch (error) {
-        console.error(error);
-        statusDiv.textContent = "Error loading data. Try again! Check console for details.";
+// 3. Функция удаления
+async function deleteBlog(id) {
+    if (confirm('Удалить этот пост?')) {
+        await fetch(`/blogs/${id}`, { method: 'DELETE' });
+        fetchBlogs();
     }
 }
+
+// Загружаем посты при открытии страницы
+fetchBlogs();
